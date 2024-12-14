@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./  # Asegúrate de usar el contexto correcto (raíz del proyecto)
+      dockerfile: docker/frontend.Dockerfile
+    ports:
+      - "4200:80"
+    volumes:
+      - ./apps/backoffice:/app  # Mapea la carpeta de backoffice a la del contenedor
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./  # Asegúrate de usar el contexto correcto (raíz del proyecto)
+      dockerfile: docker/backend.Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/api-backoffice:/src  # Mapea la carpeta de api-backoffice a la del contenedor
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      DATABASE_USER: user
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: mydb
+
+  db:
+    image: mysql:8
+    container_name: mysql_container
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
