@@ -1,14 +1,14 @@
-version: '3.8'
+version: '3.9'
 
 services:
   frontend:
     build:
-      context: ./  # Asegúrate de usar el contexto correcto (raíz del proyecto)
+      context: .  # Asegúrate de usar el contexto correcto (raíz del proyecto)
       dockerfile: docker/frontend.Dockerfile
     ports:
       - "4200:80"
     volumes:
-      - ./apps/backoffice:/app  # Mapea la carpeta de backoffice a la del contenedor
+      - ./apps/backoffice-monorepo:/app  # Mapea la carpeta de backoffice a la del contenedor
     depends_on:
       - backend
 

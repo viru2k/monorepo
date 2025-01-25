@@ -1,20 +1,29 @@
-# Usa una imagen base de Node.js
-FROM node:18.20.5
+# Etapa 1: Construcción de la aplicación
+FROM node:18-alpine AS build
 
-# Define el directorio de trabajo dentro del contenedor
+# Configurar el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia el package.json y package-lock.json para instalar las dependencias
-COPY package*.json ./
+# Copiar package.json y package-lock.json del monorepo
+COPY package.json package-lock.json ./
 
-# Instala las dependencias
-RUN npm install
+# Instalar dependencias del monorepo
+RUN npm install --legacy-peer-deps --ignore-scripts
 
-# Copia el código fuente del frontend desde el monorepo
-COPY ./apps/backoffice /app
+# Copiar el resto del monorepo
+COPY . /app
 
-# Expon el puerto en el que Angular sirve la app
-EXPOSE 4200
+# Construir la aplicación específica del monorepo
+RUN npx nx build backoffice-monorepo --prod
 
-# Comando para iniciar la aplicación
-CMD ["npm", "run", "start"]
+# Etapa 2: Servir la aplicación usando NGINX
+FROM nginx:alpine
+
+# Copiar la build de Angular al servidor NGINX
+COPY --from=build /app/dist/apps/backoffice-monorepo /usr/share/nginx/html
+
+# Exponer el puerto 80 para servir la aplicación
+EXPOSE 80
+
+# Comando por defecto para iniciar NGINX
+CMD ["nginx", "-g", "daemon off;"]
