@@ -2,7 +2,11 @@
   "name": "@backoffice-monorepo/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "nest start",
+    "start:prod": "node dist/main.js",
+    "build": "nest build"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~19.0.0",
@@ -14,11 +18,20 @@
     "@angular/platform-browser-dynamic": "~19.0.0",
     "@angular/router": "~19.0.0",
     "@nestjs/common": "^10.0.2",
+    "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^10.0.2",
+    "@nestjs/jwt": "^11.0.0",
+    "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/typeorm": "^11.0.0",
     "axios": "^1.6.0",
+    "bcryptjs": "^2.4.3",
+    "mysql": "^2.18.1",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.8.0",
+    "typeorm": "^0.3.20",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
