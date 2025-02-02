@@ -2,11 +2,11 @@
   "name": "@backoffice-monorepo/source",
   "version": "0.0.0",
   "license": "MIT",
-"scripts": {
-  "build": "nx run api-backoffice:build",
-  "start": "npm run build && node dist/apps/api-backoffice/main.js",
-  "start:prod": "node dist/apps/api-backoffice/main.js"
-},
+  "scripts": {
+    "build": "nx run api-backoffice:build",
+    "start": "npm run build && node dist/apps/api-backoffice/main.js",
+    "start:prod": "node dist/apps/api-backoffice/main.js"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~19.0.0",
@@ -26,7 +26,7 @@
     "@nestjs/typeorm": "^11.0.0",
     "axios": "^1.6.0",
     "bcryptjs": "^2.4.3",
-    "mysql": "^2.18.1",
+    "mysql2": "^3.12.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
