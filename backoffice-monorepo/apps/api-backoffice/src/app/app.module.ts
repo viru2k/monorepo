@@ -1,4 +1,3 @@
-// src/app/app.module.ts
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -6,23 +5,27 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Las variables de entorno serán accesibles globalmente
+      isGlobal: true, // O especifica el path al archivo .env si es necesario.
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'mysql', // Indica que se usará MySQL, y si tienes mysql2 instalado, lo usará
-        host: configService.get<string>('DATABASE_HOST'),
-        port: configService.get<number>('DATABASE_PORT'),
-        username: configService.get<string>('DATABASE_USER'),
-        password: configService.get<string>('DATABASE_PASSWORD'),
-        database: configService.get<string>('DATABASE_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, // Para desarrollo; en producción se recomienda false
-      }),
+      useFactory: (configService: ConfigService) => {
+        console.log('Connecting to database host:', configService.get('DATABASE_HOST'));
+        return {
+          type: 'mysql',
+          host: configService.get<string>('DATABASE_HOST'),
+          port: configService.get<number>('DATABASE_PORT'),
+          username: configService.get<string>('DATABASE_USER'),
+          password: configService.get<string>('DATABASE_PASSWORD'),
+          database: configService.get<string>('DATABASE_NAME'),
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+          synchronize: true,
+        };
+      },
     }),
+    // ... otros módulos
   ],
-  // Otros imports, controllers, providers, etc.
+  // ... controllers y providers
 })
 export class AppModule {}
