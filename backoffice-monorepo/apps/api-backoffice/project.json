@@ -5,6 +5,22 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nrwl/nest:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/api-backoffice",
+        "main": "apps/api-backoffice/src/main.ts",
+        "tsConfig": "apps/api-backoffice/tsconfig.app.json",
+        "assets": ["apps/api-backoffice/src/assets"]
+      }
+    },
+    "start": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "api-backoffice:build"
+      }
+    },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",

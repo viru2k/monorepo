@@ -2,10 +2,9 @@
   "name": "api-backoffice",
   "version": "1.0.0",
   "description": "Backend for the backoffice",
-  "main": "dist/main.js",
+  "main": "dist/src/main.js",
   "scripts": {
-    "start": "nest start",
-    "start:prod": "node dist/main.js",
+    "start": "node dist/apps/api-backoffice/main.js",
     "build": "nest build"
   },
   "dependencies": {
