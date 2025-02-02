@@ -1,6 +1,6 @@
 import { __decorate, __metadata } from "tslib";
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { AppService } from '../service/app.service';
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;

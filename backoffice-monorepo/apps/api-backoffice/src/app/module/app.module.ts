@@ -29,3 +29,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   // ... controllers y providers
 })
 export class AppModule {}
+
+
+// docker lanzar docker-compose up -d db
