@@ -16,13 +16,18 @@ import { Roles } from '../auth/roles.decorator';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+@ApiTags('Users') // Grupo en Swagger
+@ApiBearerAuth() // Requiere autenticación JWT en endpoints protegidos
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   // ✅ Crear un nuevo usuario (sin autenticación para permitir registros)
   @Post()
+  @ApiOperation({ summary: 'Crear usuario' })
+  @ApiResponse({ status: 201, description: 'Usuario creado correctamente' })
+  @ApiResponse({ status: 400, description: 'Datos inválidos' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
@@ -52,6 +57,9 @@ export class UserController {
   // ✅ Obtener un usuario por ID
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
+  @ApiOperation({ summary: 'Obtener usuario por ID' })
+  @ApiResponse({ status: 200, description: 'Usuario encontrado' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
   findOne(@Param('id') id: string) {
     if (id === 'admin') {
       throw new BadRequestException('La ruta "/users/admin" es específica y no es un ID');
@@ -68,6 +76,7 @@ export class UserController {
   // ✅ Actualizar un usuario por ID
   @UseGuards(AuthGuard('jwt'))
   @Put(':id')
+  @ApiOperation({ summary: 'Actualizar usuario' })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const userId = parseInt(id, 10);
     if (isNaN(userId)) {
@@ -77,10 +86,19 @@ export class UserController {
     return this.userService.update(userId, updateUserDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
+  @ApiOperation({ summary: 'Obtener todos los usuarios' })
+  @ApiResponse({ status: 200, description: 'Lista de usuarios' })
+  findAll() {
+    return this.userService.findAll();
+  }
+
   // ✅ Eliminar un usuario por ID (Solo Admins)
   @Roles('Admin')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Delete(':id')
+  @ApiOperation({ summary: 'Eliminar usuario' })
   remove(@Param('id') id: string) {
     const userId = parseInt(id, 10);
     if (isNaN(userId)) {
