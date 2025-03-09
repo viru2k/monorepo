@@ -15,15 +15,15 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findByEmail(email);
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Usuario no encontrado');
     }
-    const passwordMatch = await bcrypt.compare(password, user.password);
 
-    if (!passwordMatch) {
-      throw new UnauthorizedException('Invalid credentials');
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Contraseña incorrecta');
     }
-    const { password: _, ...result } = user;
-    return result;
+
+    return user;
   }
 
   async login(user: User) {
