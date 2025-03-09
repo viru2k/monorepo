@@ -36,3 +36,5 @@ docker-compose down -v
 docker-compose up -d
 docker-compose logs -f db
 
+local docker example C:\repositories\monorepo\backoffice-monorepo
+

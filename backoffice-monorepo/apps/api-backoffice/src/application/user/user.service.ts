@@ -29,9 +29,13 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findOne(id: number): Promise<User> {
-    return this.userRepository.findOneBy({ id });
+  async findOne(id: number): Promise<User> {
+    return this.userRepository.findOne({
+      where: { id },
+      relations: ['role'], // 🔹 Asegura que TypeORM cargue la relación con roles
+    });
   }
+
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     await this.userRepository.update(id, updateUserDto);

@@ -1,6 +1,8 @@
-import { Controller, Post, Body, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, Body, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from './roles.decorator';
+import { RolesGuard } from './roles.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -12,9 +14,17 @@ export class AuthController {
     return this.authService.login(user);
   }
 
-  @Post('profile')
-  @UseGuards(AuthGuard('jwt'))
-  getProfile(@Request() req) {
-    return req.user;
-  }
+    @UseGuards(AuthGuard('jwt'))
+    @Get('profile')
+    getProfile(@Request() req) {
+      return req.user;
+    }
+
+    @Roles('ADMIN') // 🔹 Solo los admins pueden acceder
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Get('admin')
+    getAdminData() {
+      return { message: 'Solo los admins pueden ver esto' };
+    }
+
 }
