@@ -12,13 +12,12 @@ import { Permission } from '../permission/entities/permission.entity';
 export class RolePermissionService {
   constructor(
     @InjectRepository(RolePermission)
-    private rolePermissionRepository: Repository<RolePermission>,
+    private readonly rolePermissionRepository: Repository<RolePermission>,
     @InjectRepository(Role)
-    private roleRepository: Repository<Role>,
+    private readonly roleRepository: Repository<Role>,
     @InjectRepository(Permission)
-    private permissionRepository: Repository<Permission>,
+    private readonly permissionRepository: Repository<Permission>,
   ) {}
-
   async create(createRolePermissionDto: CreateRolePermissionDto): Promise<RolePermission> {
     const { roleId, permissionId } = createRolePermissionDto;
 

@@ -7,9 +7,9 @@ import { ORM_ENTITIES } from '../../application/orm-entities';
 import { ClientModule } from '../../application/client/client.module';
 import { PermissionModule } from '../../application/permission/permission.module';
 import { RoleModule } from '../../application/role/role.module';
-import { RolePermission } from '../../application/role-permissions/entities/role-permission.entity';
 import { SettingModule } from '../../application/settings/setting.module';
 import { AuthModule } from '../../application/auth/auth.module';
+import { RolePermissionModule } from '../../application/role-permissions/role-permission.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { AuthModule } from '../../application/auth/auth.module';
       isGlobal: true, // O especifica el path al archivo .env si es necesario.
     }),
     TypeOrmModule.forRootAsync({
-      imports: [AuthModule,ConfigModule,ClientModule,PermissionModule,RoleModule,RolePermission,SettingModule, UserModule],
+      imports: [AuthModule,ConfigModule,ClientModule,PermissionModule,RoleModule,RolePermissionModule,SettingModule, UserModule],
       inject: [ConfigService],
       //Client,Permissions,Role,RolePermission,Setting,User
       useFactory: (configService: ConfigService) => {
