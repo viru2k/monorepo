@@ -38,3 +38,7 @@ docker-compose logs -f db
 
 local docker example C:\repositories\monorepo\backoffice-monorepo
 
+## Launch openapi generator 
+## Autogenerate service and models for frontend
+npx ng-openapi-gen
+
