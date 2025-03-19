@@ -1,6 +1,16 @@
 <div class="primeng-container">
   <h2>Ejemplo Standalone: Textbox y Button de PrimeNG</h2>
   <p-inputText [(ngModel)]="text" placeholder="Ingrese texto aquí"></p-inputText>
-  <p-button label="Enviar" (onClick)="onClick()"></p-button>
+  <div class="d-flex ">
+    <p-button label="info" severity="info" (onClick)="onClick()"></p-button>
+    <p-button label="success" icon="pi pi-plus" severity="success" class="mr-4" (onClick)="onClick()" />
+    <p-button label="warn" severity="warn" (onClick)="onClick()"></p-button>
+    <p-button label="danger" icon="pi pi-plus" severity="danger" class="mr-4" (onClick)="onClick()" />
+    <p-button label="secondary" severity="secondary" (onClick)="onClick()"></p-button>
+    <p-button label="contrast" icon="pi pi-plus" severity="contrast" class="mr-4" (onClick)="onClick()" />
+    <p-button label="help" severity="help" (onClick)="onClick()"></p-button>
+    <p-button label="primary" icon="pi pi-plus" severity="primary" class="mr-4" (onClick)="onClick()" />
+  </div>
+
   <p>Texto ingresado: {{ text }}</p>
 </div>
